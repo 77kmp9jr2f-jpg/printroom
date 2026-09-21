@@ -48,6 +48,8 @@ npm run build:site
 
 The static site builds into `dist-site/`. Its demo is generated from the real web UI and a dedicated in-browser API with no network fallback. Site builds work at a domain root or a GitHub Pages project path.
 
+The project's `gh-pages` branch serves the generated files. Preserve `site/CNAME` when publishing this site; change or remove it before publishing a fork under your own domain.
+
 [Operations and recovery](docs/operations.md) · [Integration API](docs/integration-api.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
 
 ## License and support
