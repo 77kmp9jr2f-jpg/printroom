@@ -148,6 +148,12 @@ function makeCard(p) {
   const camera = node('div', 'camera'), video = node('video'); video.autoplay = true; video.muted = true; video.playsInline = true; video.controls = false;
   video.setAttribute('aria-label', `${p.name} live camera`);
   camera.dataset.configured = String(p.cameraConfigured !== false);
+  const previewSide = Number(p.id.split('-').at(-1)) % 2 === 0 ? 'right' : 'left';
+  const cameraPreview = node('img', 'demo-camera-preview');
+  cameraPreview.src = './printer-' + previewSide + '.jpg';
+  cameraPreview.alt = 'Static K2 Plus preview recreated from a real Printroom camera view';
+  cameraPreview.loading = 'lazy'; cameraPreview.decoding = 'async';
+  camera.append(cameraPreview); video.setAttribute('aria-hidden', 'true');
   const cameraStatus = node('div', 'camera-overlay', 'CONNECTING'), cameraHint = node('div', 'camera-hint');
   const expand = button('⛶', () => camera.requestFullscreen?.().catch(() => toast('Fullscreen is unavailable in this browser')), 'camera-expand'); expand.setAttribute('aria-label', `Expand ${p.name} camera`);
   expand.hidden = p.cameraConfigured === false;

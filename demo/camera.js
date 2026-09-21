@@ -3,7 +3,7 @@ export class CameraView {
     Object.assign(this, { video, container, status, hint, api, printerId, active, enabled });
     this.generation = 0; this.attempt = 0; this.closed = false; this.lastTime = 0; this.lastFrameAt = 0;
     this.monitor = setInterval(() => this.checkFrames(), 2000);
-    if (active && enabled) this.connect(); else this.label(enabled ? 'CAMERA PAUSED' : 'SIMULATED · ILLUSTRATION');
+    if (active && enabled) this.connect(); else this.label(enabled ? 'CAMERA PAUSED' : 'STATIC PRINTER PREVIEW');
   }
   label(state, detail = '') {
     this.status.textContent = state; this.hint.textContent = detail;
@@ -15,7 +15,7 @@ export class CameraView {
     if (this.closed || active === this.active) return;
     this.active = active;
     if (active) this.connect();
-    else { ++this.generation; clearTimeout(this.retry); this.retry = null; this.peer?.close(); this.video.srcObject = null; this.lastFrameAt = 0; this.label(this.enabled ? 'CAMERA PAUSED' : 'SIMULATED · ILLUSTRATION'); }
+    else { ++this.generation; clearTimeout(this.retry); this.retry = null; this.peer?.close(); this.video.srcObject = null; this.lastFrameAt = 0; this.label(this.enabled ? 'CAMERA PAUSED' : 'STATIC PRINTER PREVIEW'); }
   }
   async connect() {
     if (!this.active || !this.enabled || this.closed) return;
