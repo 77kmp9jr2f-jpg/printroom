@@ -1,5 +1,5 @@
 import fixtures from './fixtures.js';
-const key = 'printroom-public-demo-v1';
+const key = 'printroom-public-demo-v2';
 const fresh = (count=2) => ({ count, version:1, profiles:structuredClone(fixtures.profiles.slice(0,count)), spoolman:{version:1,connection:{host:'192.168.250.200',port:7912},cfsyncCompatible:true}, retired:[] });
 let state;
 try { const saved=JSON.parse(sessionStorage.getItem(key)); state=saved?.profiles?.length<=64 && saved?.version ? saved : fresh(); } catch { state=fresh(); }
@@ -29,7 +29,7 @@ export async function demoFetch(path, options={}) {
       if(!p||!/^[a-z][a-z0-9_-]{0,31}$/.test(p.id)||!p.name?.trim()||state.retired.includes(p.id)) return json({error:'Use a name and an unused stable ID.'},400);
       const index=state.profiles.findIndex(x=>x.id===p.id);
       if(index<0&&state.profiles.length>=64) return json({error:'The 64-printer limit has been reached.'},409);
-      const profile={id:p.id,name:p.name.slice(0,100),host:`192.168.250.${10+(index<0?state.profiles.length:index)}`,moonrakerPort:7125,fluiddPort:null,adapter:p.adapter==='creality'?'creality':'moonraker',cameraMode:'none',enabled:p.enabled!==false,hasApiKey:false};
+      const profile={id:p.id,name:p.name.slice(0,100),host:`192.168.250.${10+(index<0?state.profiles.length:index)}`,moonrakerPort:7125,fluiddPort:null,adapter:p.adapter==='creality'?'creality':'moonraker',vendorPort:p.adapter==='creality'?9999:null,cameraMode:'none',enabled:p.enabled!==false,hasApiKey:false};
       if(index<0)state.profiles.push(profile);else state.profiles[index]=profile;
       state.version++;save();return json(settings());
     }
@@ -41,10 +41,12 @@ export async function demoFetch(path, options={}) {
   }
   if(method==='GET') {
     if(route==='/api/v1/fleet') {
-      const now=Date.now(); const printers=state.profiles.filter(p=>p.enabled).map((p,i)=>{
-        const value=structuredClone(fixtures.printers[i%fixtures.printers.length]); Object.assign(value,{id:p.id,name:p.name,host:'SIMULATED DEVICE',configurationId:p.id+'-'+state.version,cameraConfigured:false});
+      const now=Date.now(); const printers=state.profiles.filter(p=>p.enabled).map(p=>{
+        const index=fixtures.profiles.findIndex(f=>f.id===p.id&&f.adapter===p.adapter);
+        const value=structuredClone(fixtures.printers[index>=0?index:p.adapter==='creality'?0:2]); Object.assign(value,{id:p.id,name:p.name,host:'SIMULATED DEVICE',configurationId:p.id+'-'+state.version,cameraConfigured:false});
         for(const source of Object.values(value.sources)) if(source.observedAt!=null){source.observedAt=now;source.ageMs=0;source.state='fresh';}
         for(const temperature of Object.values(value.temperatures)) temperature.observedAt=now;
+        for(const box of value.cfs) for(const slot of box.slots) slot.observedAt=now;
         return value;
       }); return json({printers,controlsEnabled:false,observedAt:now});
     }
