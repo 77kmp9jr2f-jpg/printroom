@@ -9,13 +9,15 @@ Reviewed 21 September 2026. Printroom connects to APIs, not brand names. “Impl
 | Other Creality printers exposing Moonraker | Conditional through the Moonraker profile | Vendor telemetry only if it implements the same Creality protocol | Start with the generic profile. Validate firmware and each capability separately. No blanket K1/K2/Ender family claim. |
 | Several Moonraker instances on one host | Implemented | Configure each camera independently | Each instance uses a distinct port and stable printer ID. Discovery runs one selected port at a time. |
 | Spoolman | Implemented inventory reads and optional reviewed imports | Color library and confirmed physical CFS associations | Configure server host/port in Settings. Direct HTTP API v1; private IPv4, `host.docker.internal`, `localhost`, or same-network Docker service `spoolman`. Optional separate browser URL. No automatic mass deductions. |
-| CFSync | Optional Creality integration | Monitor state and confirmed links | Independently deployed and configured. Its printer and inventory configuration must agree with Printroom; incompatible links are blocked. Not part of the generic portable stack. |
+| CFSync workshop bridge | Optional installation-specific Creality integration | Monitor state and confirmed links | Requires the Printroom workshop adapter, matching printer/Spoolman configuration and monitor-only API contract. Not bundled in the public portable stack; ordinary upstream CFSync is not a drop-in replacement. Direct CFS display does not require it. |
 | OctoPrint, including Marlin through OctoPrint | No adapter | Not implemented | A separate OctoPrint REST adapter is needed. |
 | Bambu Lab / AMS | No adapter | Not implemented | Needs a firmware-qualified integration; Moonraker discovery does not find Bambu devices. |
 | PrusaLink / Prusa Connect | No adapter | Not implemented | A Prusa running Klipper can instead be evaluated as a Moonraker setup. |
 | Duet / RepRapFirmware, USB serial or cloud-only devices | No adapter | Not implemented | No Duet, serial or vendor-cloud connector. |
 
 ## Connection boundaries
+
+For tray display, select **Creality + Moonraker** and configure its Creality telemetry port (normally 9999). The generic Moonraker profile does not collect CFS data. See [CFS trays and spool links](https://printroom.innoventures.cloud/cfs.html) for the complete requirements and troubleshooting.
 
 Printer configuration currently accepts private IPv4 addresses and direct HTTP Moonraker endpoints. DNS names, IPv6, HTTPS printer APIs, reverse-proxy path prefixes, JWT refresh and password-protected camera sources are not implemented in the printer form. An API key stays in the local database and is never returned to the browser. Re-enter it when changing an endpoint; it is not forwarded to a new address automatically.
 

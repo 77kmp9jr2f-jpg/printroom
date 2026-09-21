@@ -28,6 +28,21 @@ test('demo settings persist fictional profiles while discarding credentials and 
  const removed=await request('/api/v1/settings/printers/remove',{baseVersion:2,id:'bench'});assert.equal(removed.data.printers.length,2);
  resetDemo(12);assert.equal(getDemoSnapshot().printers.length,12);
 });
+test('CFS demo keeps eight left slots and four right slots attached to the correct profiles',async()=>{
+ resetDemo(12);
+ let fleet=(await request('/api/v1/fleet')).data.printers;
+ assert.deepEqual(fleet.slice(0,2).map(p=>p.cfs.flatMap(b=>b.slots).length),[8,4]);
+ assert.ok(fleet.slice(2).every(p=>p.cfs.length===0));
+ assert.equal(fleet[0].cfs.flatMap(b=>b.slots).filter(s=>s.active).length,1);
+ assert.equal(fleet[1].cfs.flatMap(b=>b.slots).filter(s=>s.active).length,0);
+ assert.equal(fleet[0].sources.cfs.state,'fresh');
+ await request('/api/v1/settings/printers/remove',{baseVersion:1,id:'demo-1'});
+ fleet=(await request('/api/v1/fleet')).data.printers;
+ assert.equal(fleet[0].id,'demo-2');assert.equal(fleet[0].cfs.flatMap(b=>b.slots).length,4);
+ await request('/api/v1/settings/printers/save',{baseVersion:2,printer:{...getDemoSnapshot().printers[0],adapter:'moonraker'}});
+ assert.equal((await request('/api/v1/fleet')).data.printers[0].cfs.length,0);
+ resetDemo(2);
+});
 test('generated pages have isolated demo policy, correct relative routes and real local assets',async()=>{
  const roots=await readdir(out);assert.ok(roots.includes('installation.html'));assert.ok(roots.includes('operations.html'));
  for(const file of ['index.html','settings.html']){

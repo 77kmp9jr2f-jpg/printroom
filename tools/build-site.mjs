@@ -35,7 +35,7 @@ function markdown(s) {
   }
   return html + (list ? '</ul>' : '') + (table ? '</table></div>' : '');
 }
-const guides = [ ['installation','Install & connect'], ['compatibility','Compatibility & scale'], ['operations','Operate & troubleshoot'], ['integration-api','Integration API'] ];
+const guides = [ ['installation','Install & connect'], ['compatibility','Compatibility & scale'], ['cfs','CFS trays & spool links'], ['operations','Operate & troubleshoot'], ['integration-api','Integration API'] ];
 const template = await readFile(join(root, 'site/guide.template.html'), 'utf8');
 for (const [id,title] of guides) {
   const content = markdown(await readFile(join(root, 'docs', id + '.md'), 'utf8'));
@@ -73,15 +73,23 @@ for (const name of ['index.html','settings.html']) {
   html = html.replace(/(<body[^>]*>)/, '$1' + banner);
   await writeFile(join(out,'demo',name),html);
 }
-const profiles = Array.from({length:64},(_,i) => ({id:`demo-${i+1}`, name:i<2?['Left K2 Plus','Right K2 Plus'][i]:`Workshop ${String(i+1).padStart(2,'0')}`,host:`192.168.250.${i+10}`,moonrakerPort:7125,fluiddPort:null,adapter:'moonraker',cameraMode:'none',enabled:true,hasApiKey:false}));
+const swatches=[['Sage','91B3A0'],['Terracotta','C98265'],['Graphite','454D55'],['Pearl','E8E4D9'],['Ocean','457EAA'],['Lavender','A994C4'],['Marigold','E1B14C'],['Coral','CF7877'],['Forest','497767'],['Ice','A6CDD4'],['Clay','BA967E'],['Cobalt','4D62AF']];
+const profiles = Array.from({length:64},(_,i) => ({id:`demo-${i+1}`, name:i<2?['Left K2 Plus','Right K2 Plus'][i]:`Workshop ${String(i+1).padStart(2,'0')}`,host:`192.168.250.${i+10}`,moonrakerPort:7125,fluiddPort:null,adapter:i<2?'creality':'moonraker',vendorPort:i<2?9999:null,cameraMode:'none',enabled:true,hasApiKey:false}));
 const printers = profiles.map((p,i) => {
   const t=new PrinterTelemetry({...p,moonraker:null,fluidd:null,cameraSource:null,vendor:null});
   const active=i!==1 && i%4!==3;
   t.updateMoonrakerInfo({klippy_state:'ready',klippy_connected:true});
   t.updateMoonraker({print_stats:{state:active?'printing':'standby',filename:active?['workshop-fixture.gcode','mounting-plate.gcode','cable-guide.gcode'][i%3]:null,print_duration:2850+i*90,filament_used:active?8200+i*200:0},webhooks:{state:'ready'},extruder:{temperature:active?215:24,target:active?215:0},heater_bed:{temperature:active?60:24,target:active?60:0},virtual_sdcard:{progress:0.24+(i%7)*.08,layer:47+i*3,layer_count:180}});
+  // Match the observed 8-slot / 4-slot workshop layout using synthetic values only.
+  if (i < 2) t.updateVendor({state:active?1:0,deviceState:active?1:0,boxTemp:active?29:24,boxsInfo:{materialBoxs:Array.from({length:i===0?2:1},(_,boxIndex)=>({
+    id:boxIndex+1,type:0,state:1,temp:25+boxIndex,humidity:24+boxIndex*3,
+    materials:Array.from({length:4},(_,slotId)=>{
+      const colorIndex=(i===0?0:8)+boxIndex*4+slotId, [name,color]=swatches[colorIndex];
+      return {id:slotId,color:'#'+color,vendor:'Demo Materials',type:colorIndex%3===0?'PETG':'PLA',name,percent:Math.max(12,90-colorIndex*6),selected:active&&boxIndex===0&&slotId===1?1:0,state:1};
+    })
+  }))}});
   const s=t.snapshot();s.configurationId=`demo-config-${i}`;s.job.id=`demo-job-${i}`;s.job.remainingSeconds=6200-i*60;return s;
 });
-const swatches=[['Sage','91B3A0'],['Terracotta','C98265'],['Graphite','454D55'],['Pearl','E8E4D9'],['Ocean','457EAA'],['Lavender','A994C4'],['Marigold','E1B14C'],['Coral','CF7877'],['Forest','497767'],['Ice','A6CDD4'],['Clay','BA967E'],['Cobalt','4D62AF']];
 const spools=swatches.map(([name,color],i)=>({id:i+1,filament:{id:i+1,name,material:i%3===0?'PETG':'PLA',vendor:{name:'Demo Materials'},color_hex:color,weight:1000,extra:{printroom_finish:JSON.stringify(i%4===0?'Matte':'Standard')}},remaining_weight:Math.max(80,930-i*65),initial_weight:1000,archived:false,location:i===10?'On order':'Demo shelf'}));
 await writeFile(join(out,'demo/fixtures.js'), `// Fabricated fixture data only.\nexport default ${JSON.stringify({profiles,printers,spools,compatibility})};\n`);
 console.log(`Built ${out}`);

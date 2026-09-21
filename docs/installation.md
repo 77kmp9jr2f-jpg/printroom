@@ -51,6 +51,12 @@ Use **Browser URL** when the address users open differs from the service address
 
 Changing inventory servers clears current physical associations and separates import history by endpoint. It does not change records or weights in Spoolman. CFSync is a separate optional integration and must point to the same inventory before its links are available.
 
+## Show Creality CFS trays
+
+CFS tray display requires a compatible printer's **Creality + Moonraker** profile. In Settings, choose that profile and set **Creality telemetry port** (normally **9999**) in addition to Moonraker. The container must reach both ports. After saving, check that the Printer and CFS source indicators become fresh, then expand **CFS** below the camera. **Test connection** checks Moonraker only.
+
+CFSync and Spoolman are not required to display tray colors, active slots, humidity and printer-reported percentages. The optional CFSync workshop bridge is installation-specific and is not included in the portable stack. See [CFS trays and spool links](https://printroom.innoventures.cloud/cfs.html) for requirements, physical spool identity, the bridge contract and troubleshooting.
+
 ## Optional cameras
 
 Copy `config/go2rtc.example.yaml` to `config/go2rtc.yaml` if the latter does not exist, and protect it with `chmod 600 config/go2rtc.yaml`. On native Linux also run `sudo chown 1000:1000 config/go2rtc.yaml` so the non-root relay can read it. Active camera configuration is ignored by Git because stream URLs can contain credentials. Start the optional relay:

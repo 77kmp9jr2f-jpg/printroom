@@ -2,7 +2,7 @@
 
 **A calmer view of your workshop.** A local, self-hosted dashboard for Moonraker/Klipper printers, optional cameras and Spoolman inventory.
 
-[Documentation & demo](https://printroom.innoventures.cloud) · [Installation](docs/installation.md) · [Compatibility](docs/compatibility.md) · [Optional tip](https://innoventures-shop.fourthwall.com/pages/support-printroom)
+[Documentation & demo](https://printroom.innoventures.cloud) · [Installation](docs/installation.md) · [Compatibility](docs/compatibility.md) · [CFS setup](docs/cfs.md) · [Optional tip](https://innoventures-shop.fourthwall.com/pages/support-printroom)
 
 ## What it does
 
