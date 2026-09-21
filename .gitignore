@@ -1,0 +1,23 @@
+data/
+secrets/
+.env*
+!.env.example
+.DS_Store
+*.pem
+*.key
+*.p12
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+config/printers.json
+node_modules/
+__pycache__/
+research/evidence/
+docs/private/
+
+dist-site/
+release-export/
+
+# Active camera endpoints may include credentials.
+config/go2rtc.yaml

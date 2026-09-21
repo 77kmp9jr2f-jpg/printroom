@@ -1,0 +1,14 @@
+# For LAN playback also add YOUR host's private address, e.g. 192.168.1.10:18555,
+# to candidates and use compose.lan.yaml. No cloud STUN servers are used.
+api:
+  listen: ':1984'
+rtsp:
+  listen: ''
+webrtc:
+  listen: ':8555'
+  candidates:
+    - 127.0.0.1:18555
+  ice_servers: []
+# Creality camera profiles create their relay source from the saved printer host.
+# For generic cameras, define a source here, then select its name in Settings.
+streams: {}

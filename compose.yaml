@@ -1,0 +1,50 @@
+# Portable localhost installation. Optional LAN binding is in compose.lan.yaml.
+name: print-room
+services:
+  companion:
+    image: printroom:local
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      PRINT_PUBLIC_PORT: "${PRINT_PUBLIC_PORT:-7988}"
+      PRINT_LAN_ACCESS: "${PRINT_LAN_ACCESS:-paired}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:${PRINT_PUBLIC_PORT:-7988}:8080"
+    volumes:
+      - companion-data:/data
+      - ./config/printers.json:/config/printers.json:ro
+    secrets: [companion_token]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 100
+    mem_limit: 256m
+    cpus: 0.5
+    stop_grace_period: 12s
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "2"}
+  camera:
+    profiles: [cameras]
+    image: ghcr.io/alexxit/go2rtc:1.9.14@sha256:675c318b23c06fd862a61d262240c9a63436b4050d177ffc68a32710d9e05bae
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "127.0.0.1:18555:8555/tcp"
+      - "127.0.0.1:18555:8555/udp"
+    volumes:
+      - ./config/go2rtc.yaml:/config/go2rtc.yaml:ro
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 128m
+    cpus: 0.5
+secrets:
+  companion_token:
+    file: ./secrets/companion_token
+volumes:
+  companion-data:

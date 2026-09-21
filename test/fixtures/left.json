@@ -1,0 +1,152 @@
+{
+  "_fixture": "Synthetic protocol regression fixture. No captured device identifiers or job files.",
+  "vendor": [
+    {
+      "state": 1,
+      "deviceState": 1,
+      "withSelfTest": 100,
+      "printFileName": "/gcodes/sample-planter.gcode",
+      "printProgress": 10,
+      "layer": 1,
+      "TotalLayer": 73,
+      "printJobTime": 300,
+      "printLeftTime": 3000,
+      "nozzleTemp": 215,
+      "targetNozzleTemp": 215,
+      "bedTemp0": 60,
+      "targetBedTemp0": 60,
+      "boxTemp": 26
+    },
+    {
+      "boxsInfo": {
+        "materialBoxs": [
+          {
+            "id": 1,
+            "type": 0,
+            "state": 1,
+            "temp": 24,
+            "humidity": 30,
+            "materials": [
+              {
+                "id": 0,
+                "color": "#B1BEC6",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 11,
+                "selected": 0,
+                "state": 1
+              },
+              {
+                "id": 1,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 12,
+                "selected": 0,
+                "state": 1
+              },
+              {
+                "id": 2,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 13,
+                "selected": 0,
+                "state": 1
+              },
+              {
+                "id": 3,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 14,
+                "selected": 0,
+                "state": 1
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "type": 0,
+            "state": 1,
+            "temp": 24,
+            "humidity": 30,
+            "materials": [
+              {
+                "id": 0,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 11,
+                "selected": 0,
+                "state": 1
+              },
+              {
+                "id": 1,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 12,
+                "selected": 0,
+                "state": 1
+              },
+              {
+                "id": 2,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 13,
+                "selected": 1,
+                "state": 1
+              },
+              {
+                "id": 3,
+                "color": "#474747",
+                "vendor": "Demo Materials",
+                "type": "PLA",
+                "name": "Synthetic filament",
+                "percent": 14,
+                "selected": 0,
+                "state": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "moonraker": {
+    "print_stats": {
+      "state": "printing",
+      "filename": "sample-planter.gcode",
+      "print_duration": 300,
+      "filament_used": 623.3
+    },
+    "webhooks": {
+      "state": "ready"
+    },
+    "virtual_sdcard": {
+      "progress": 0.1,
+      "layer": 1,
+      "layer_count": 73
+    },
+    "pause_resume": {
+      "is_paused": false
+    },
+    "extruder": {
+      "temperature": 215,
+      "target": 215
+    },
+    "heater_bed": {
+      "temperature": 60,
+      "target": 60
+    }
+  }
+}

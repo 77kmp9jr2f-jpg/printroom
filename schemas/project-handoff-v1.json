@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Print Companion project handoff v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "projectUrl",
+    "title",
+    "revision",
+    "model",
+    "material",
+    "orientation",
+    "review"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,128}$"
+    },
+    "projectUrl": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "filename",
+        "sha256"
+      ],
+      "properties": {
+        "filename": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[^/\\\\]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    },
+    "material": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "orientation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "report": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "filename",
+        "sha256",
+        "modelSha256"
+      ],
+      "properties": {
+        "filename": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[^/\\\\]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "modelSha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "needs_review",
+            "reviewed"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
+    }
+  },
+  "description": "Companion-owned metadata, not an openFEA API. A reviewed report must match the model hash and carry a meaningful note. Changes to model, material, orientation, revision or report invalidate retained review unless explicitly reviewed again. No report contents or physical validity are automatically verified."
+}
