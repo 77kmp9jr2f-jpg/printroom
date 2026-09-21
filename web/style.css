@@ -873,7 +873,12 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; max-heigh
 }
 @media (max-width: 690px) {
   html { scroll-padding-top: 100px; }
-  .masthead { padding: 8px 14px 0; flex-wrap: nowrap; }
+  .masthead { padding: 8px 14px 0; flex-wrap: wrap; }
+  .masthead .identity { flex-shrink: 0; }
+  .masthead .identity strong { white-space: nowrap; }
+  .masthead nav { flex-basis: 100%; margin-left: 0; }
+  .masthead .stop-strip { width: 100%; margin-left: 0; }
+  .masthead .strip-actions, .masthead .stop-buttons { flex-wrap: wrap; }
   .identity strong { font-size: 1.15rem; }
   .identity span:not(.brand-mark) { font-size: 8px; }
   nav { position: static; width: auto; max-width: 100%; overflow-x: auto; clip: auto; }

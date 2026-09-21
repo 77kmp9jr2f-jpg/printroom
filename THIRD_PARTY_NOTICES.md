@@ -13,4 +13,4 @@ Printroom's original source is MIT licensed; see LICENSE. Separate services and 
 
 The public package does not bundle CFSync or its upstream source. The original installation uses a separately configured, pinned integration. No license file was found at upstream commit 22d00b9c9fc2ed1faac6e8441e8c700030803bc2 during release preparation; redistribution of that bundle awaits clarification. Printroom's integration client can remain present without redistributing the separate service.
 
-The public demo illustration and site assets were created for Printroom. Its records are fictional. No private camera footage or installation data is included.
+The public printer previews were generated with OpenAI image generation using owner-authorized stills from the running Printroom K2 Plus cameras as visual references. They are recreated static images, not live camera feeds or unaltered photographs. Browser chrome, device addresses and operational overlays are excluded. Demo telemetry and inventory remain simulated, and the demo cannot connect to the real installation. Other original site assets were created for Printroom.
