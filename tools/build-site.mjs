@@ -57,6 +57,7 @@ for (const name of ['index.html','settings.html']) {
   html = html.replaceAll('href="/style.css','href="./style.css').replaceAll('src="/app.js','src="./app.js').replaceAll('src="/settings.js','src="./settings.js').replaceAll('href="/settings"','href="./settings.html"').replaceAll('href="/#','href="./index.html#').replaceAll('href="/"','href="./index.html"');
   html = html.replace(/<link[^>]+https:\/\/fonts[^>]+>/g,'');
   html = html.replace('</head>', '<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data:; font-src \'self\'; connect-src \'none\'; media-src \'none\'; object-src \'none\'; base-uri \'self\'; form-action \'none\'"><link rel="stylesheet" href="./demo.css"><script type="module" src="./demo-ui.js"></script></head>');
+  html = html.replace('</head>', '<link rel="icon" type="image/svg+xml" href="../icon.svg"></head>');
   html = html.replace(/(<body[^>]*>)/, '$1' + banner);
   await writeFile(join(out,'demo',name),html);
 }
