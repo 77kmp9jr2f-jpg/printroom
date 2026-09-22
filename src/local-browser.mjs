@@ -33,7 +33,8 @@ export class LocalBrowser {
     this.cookieId = req => new RegExp(`(?:^|;\\s*)${this.cookieName}=([a-f0-9]{64})(?:;|$)`).exec(req.headers.cookie ?? '')?.[1];
     this.sessions = new Map(); this.ttlMs = ttlMs; this.assetDir = assetDir;
     this.assets = new Map([['/', ['index.html', 'text/html']], ['/settings', ['settings.html', 'text/html']], ['/settings.js', ['settings.js', 'text/javascript']], ['/app.js', ['app.js', 'text/javascript']],
-      ['/color-library.js', ['color-library.js', 'text/javascript']], ['/color-library-view.js', ['color-library-view.js', 'text/javascript']], ['/ui-core.js', ['ui-core.js', 'text/javascript']], ['/camera.js', ['camera.js', 'text/javascript']], ['/style.css', ['style.css', 'text/css']]]);
+      ['/color-library.js', ['color-library.js', 'text/javascript']], ['/color-library-view.js', ['color-library-view.js', 'text/javascript']], ['/ui-core.js', ['ui-core.js', 'text/javascript']], ['/camera.js', ['camera.js', 'text/javascript']], ['/style.css', ['style.css', 'text/css']],
+      ['/brand.svg', ['brand.svg', 'image/svg+xml']], ['/icon.svg', ['icon.svg', 'image/svg+xml']]]);
   }
   checkOrigin(req, required = false) {
     const origin = `http://${req.headers.host}`;

@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#07080c"><title>Print room</title>
+  <meta name="theme-color" content="#07080c"><title>Printroom</title>
+  <link rel="icon" href="/icon.svg?v=filament1" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=hub11"><script type="module" src="/app.js?v=hub11"></script>
+  <link rel="stylesheet" href="/style.css?v=filament1"><script type="module" src="/app.js?v=hub11"></script>
 </head>
 <body>
   <a class="skip" href="#printers">Skip to printers</a>
   <header class="masthead">
     <div class="identity">
       <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="16" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M16 2.5v6M16 23.5v6M2.5 16h6M23.5 16h6" stroke="currentColor" stroke-width="1.25"/></svg>
+        <img src="/brand.svg?v=filament1" width="28" height="28" alt="">
       </span>
-      <div><strong>Print room</strong><span id="room-mark">Connecting</span></div>
+      <div><strong>Printroom</strong><span id="room-mark">Connecting</span></div>
     </div>
     <nav aria-label="Workspace">
       <a href="#printers">Room</a>
@@ -31,8 +32,8 @@
   </header>
   <section id="pairing" class="pairing panel" aria-labelledby="pairing-title" hidden>
     <p class="eyebrow">WELCOME TO YOUR PRINT ROOM</p><h1 id="pairing-title">Connect this browser.</h1>
-    <p class="muted">On the Print room host, open this service and choose <strong>Pair a LAN browser</strong>. Enter the eight-digit code here.</p>
-    <form id="pairing-form"><label class="field" for="pairing-code">Pairing code<input id="pairing-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{8}" maxlength="8" required placeholder="00000000"></label><button id="pairing-submit" type="submit">Connect to Print room</button><p id="pairing-error" class="error" role="alert"></p></form>
+    <p class="muted">On the Printroom host, open this service and choose <strong>Pair a LAN browser</strong>. Enter the eight-digit code here.</p>
+    <form id="pairing-form"><label class="field" for="pairing-code">Pairing code<input id="pairing-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{8}" maxlength="8" required placeholder="00000000"></label><button id="pairing-submit" type="submit">Connect to Printroom</button><p id="pairing-error" class="error" role="alert"></p></form>
     <p class="small muted">One code connects one browser. Access lasts 12 hours or until the service restarts. Use your trusted home network.</p>
   </section>
   <main id="workspace">
@@ -80,7 +81,7 @@
     </section>
     <section id="projects" aria-labelledby="projects-title"><div class="section-heading"><div><h2 id="projects-title">Projects</h2></div><div class="link-group"><a href="https://github.com/77kmp9jr2f-jpg/openFEA" target="_blank" rel="noreferrer">Open FEA-R ↗</a><button id="project-open">Add a project</button></div></div><p class="muted">Keep a model revision, material, orientation and analysis review together. File fingerprints link reports to the exact model. No solver is connected.</p><div id="project-list" class="workspace-grid"></div></section>
     <section id="activity" aria-labelledby="activity-title"><div class="section-heading"><div><h2 id="activity-title">Activity</h2></div><button id="refresh-actions" class="quiet">Refresh outcomes</button></div><p id="action-message" class="notice" role="status">No printer commands have been sent from this page.</p><div id="action-list" class="activity-list"></div></section>
-    <footer><span>Print room</span><button id="pair-device" class="quiet" hidden>Pair a LAN browser</button><span>Local data. Independent cameras and controls.</span></footer>
+    <footer><span>Printroom</span><button id="pair-device" class="quiet" hidden>Pair a LAN browser</button><span>Local data. Independent cameras and controls.</span></footer>
   </main>
   <dialog id="editor" aria-labelledby="dialog-title"><form id="editor-form"><div class="dialog-heading"><h2 id="dialog-title"></h2><button type="button" id="editor-close" class="quiet" aria-label="Close dialog">✕</button></div><div id="editor-fields"></div><p id="editor-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="editor-cancel" class="quiet">Cancel</button><button type="submit" id="editor-submit"></button></div></form></dialog>
   <div id="toast" class="toast" role="status" hidden></div>

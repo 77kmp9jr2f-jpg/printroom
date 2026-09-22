@@ -1,8 +1,10 @@
 # Printroom
 
+<img src="site/brand/wordmark.png" alt="Printroom — Filament Loop" width="450">
+
 **A calmer view of your workshop.** A local, self-hosted dashboard for Moonraker/Klipper printers, optional cameras and Spoolman inventory.
 
-[Documentation & demo](https://printroom.innoventures.cloud) · [Installation](docs/installation.md) · [Compatibility](docs/compatibility.md) · [CFS setup](docs/cfs.md) · [Optional tip](https://innoventures-shop.fourthwall.com/pages/support-printroom)
+[Documentation & demo](https://printroom.innoventures.cloud) · [Installation](docs/installation.md) · [Compatibility](docs/compatibility.md) · [CFS setup](docs/cfs.md) · [Optional tip](https://tips.printroom.innoventures.cloud/)
 
 ## What it does
 
@@ -54,4 +56,4 @@ The project's `gh-pages` branch serves the generated files. Preserve `site/CNAME
 
 ## License and support
 
-Printroom's original source is [MIT licensed](LICENSE). Optional services retain their own licenses. If it helps your workshop, [leave an optional tip on Fourthwall](https://innoventures-shop.fourthwall.com/pages/support-printroom). Tips support maintenance and documentation; no payment is required to use the tool.
+Printroom's original source is [MIT licensed](LICENSE). Optional services retain their own licenses. If it helps your workshop, [leave an optional tip on Fourthwall](https://tips.printroom.innoventures.cloud/). Tips support maintenance and documentation; no payment is required to use the tool.

@@ -9,6 +9,8 @@ const out = resolve(root, process.env.PRINTROOM_SITE_OUT || 'dist-site');
 if (out === root || !out.startsWith(root + '/')) throw new Error('Build directory must be inside the project');
 await rm(out, { recursive: true, force: true }); await mkdir(join(out, 'demo'), { recursive: true });
 await cp(join(root, 'site'), out, { recursive: true });
+// Share the production mark and favicon with every public page and demo route.
+for (const name of ['brand.svg', 'icon.svg']) await cp(join(root, 'web', name), join(out, name));
 await writeFile(join(out, '.nojekyll'), '');
 const escape = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -39,7 +41,7 @@ const guides = [ ['installation','Install & connect'], ['compatibility','Compati
 const template = await readFile(join(root, 'site/guide.template.html'), 'utf8');
 for (const [id,title] of guides) {
   const content = markdown(await readFile(join(root, 'docs', id + '.md'), 'utf8'));
-  await writeFile(join(out, id + '.html'), template.replaceAll('{{TITLE}}', title).replace('{{NAV}}', guides.map(([path,label]) => `<a data-guide ${path===id ? 'aria-current="page" ' : ''}href="${path}.html">${label}</a>`).join('')).replace('{{CONTENT}}', content));
+  await writeFile(join(out, id + '.html'), template.replaceAll('{{TITLE}}', title).replaceAll('{{PAGE}}', id + '.html').replace('{{NAV}}', guides.map(([path,label]) => `<a data-guide ${path===id ? 'aria-current="page" ' : ''}href="${path}.html">${label}</a>`).join('')).replace('{{CONTENT}}', content));
 }
 await rm(join(out, 'guide.template.html'));
 for (const name of ['app.js','settings.js','ui-core.js','color-library.js','color-library-view.js','camera.js','style.css']) {
@@ -69,7 +71,11 @@ for (const name of ['index.html','settings.html']) {
   html = html.replaceAll('href="/style.css','href="./style.css').replaceAll('src="/app.js','src="./app.js').replaceAll('src="/settings.js','src="./settings.js').replaceAll('href="/settings"','href="./settings.html"').replaceAll('href="/#','href="./index.html#').replaceAll('href="/"','href="./index.html"');
   html = html.replace(/<link[^>]+https:\/\/fonts[^>]+>/g,'');
   html = html.replace('</head>', '<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data:; font-src \'self\'; connect-src \'none\'; media-src \'none\'; object-src \'none\'; base-uri \'self\'; form-action \'none\'"><link rel="stylesheet" href="./demo.css"><script type="module" src="./demo-ui.js"></script></head>');
-  html = html.replace('</head>', '<link rel="icon" type="image/svg+xml" href="../icon.svg"></head>');
+  html = html.replaceAll('src="/brand.svg', 'src="../brand.svg').replaceAll('href="/icon.svg', 'href="../icon.svg');
+  const demoTitle = name === 'settings.html' ? 'Demo settings · Printroom' : 'Simulated demo · Printroom';
+  const demoUrl = 'https://printroom.innoventures.cloud/demo/' + (name === 'index.html' ? '' : name);
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>' + demoTitle + '</title>');
+  html = html.replace('</head>', `<link rel="canonical" href="${demoUrl}"><meta name="description" content="Explore Printroom with simulated printers and materials. No connection to real devices."><meta property="og:title" content="${demoTitle}"><meta property="og:description" content="Explore a calmer workshop with simulated printers and materials."><meta property="og:type" content="website"><meta property="og:site_name" content="Printroom"><meta property="og:url" content="${demoUrl}"><meta property="og:image" content="https://printroom.innoventures.cloud/brand/social-card.png?v=filament1"><meta property="og:image:width" content="1280"><meta property="og:image:height" content="640"><meta property="og:image:alt" content="Printroom Filament Loop logo — A calmer view of your workshop."><meta name="twitter:card" content="summary_large_image"><link rel="apple-touch-icon" href="../brand/apple-touch-icon.png?v=filament1"><link rel="icon" type="image/png" sizes="32x32" href="../brand/favicon-32.png?v=filament1"></head>`);
   html = html.replace(/(<body[^>]*>)/, '$1' + banner);
   await writeFile(join(out,'demo',name),html);
 }

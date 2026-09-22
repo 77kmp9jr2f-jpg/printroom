@@ -66,7 +66,7 @@ test('opening a second tab keeps the first tab session usable', async t => {
 test('versioned dashboard assets load before authentication without relaxing origin checks', async t => {
   const assetDir = fileURLToPath(new URL('../web/', import.meta.url));
   const { base } = await setup(t, { assetDir });
-  for (const [name, mime] of [['app.js', 'text/javascript'], ['style.css', 'text/css']]) {
+  for (const [name, mime] of [['app.js', 'text/javascript'], ['style.css', 'text/css'], ['brand.svg', 'image/svg\\+xml'], ['icon.svg', 'image/svg\\+xml']]) {
     const path = '/' + name + '?v=hub11';
     const response = await fetch(base + path, { headers: { Host: host } });
     assert.equal(response.status, 200);

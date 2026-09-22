@@ -55,3 +55,12 @@ test('generated pages have isolated demo policy, correct relative routes and rea
   const path=resolve(out,link.endsWith('/')?link+'index.html':link);await readFile(path);
  }}
 });
+test('support entry points consistently use the Printroom tips domain',async()=>{
+ const expected='https://tips.printroom.innoventures.cloud/';
+ for(const file of ['site/index.html','web/settings.html','dist-site/index.html','dist-site/demo/settings.html']) {
+  const html=await readFile(resolve(file),'utf8');
+  const links=[...html.matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
+  assert.ok(links.includes(expected),`${file} is missing the branded support URL`);
+  assert.ok(!links.some(link=>link.includes('fourthwall.com')),`${file} bypasses the configured support domain`);
+ }
+});
